@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>rbn</title>
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="rbnfiles/rbnLayer.css">
+</head>
+
+<body>
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Demo Page</h1>
+    <p>Idea:</p>
+    <p>Hide a layer (with video player) when the page loaded.</p> 
+    <p>Show the hided layer when the thumbnail be clicked.</p> 
+    <p>Use "Bootstrap" to make it a liittle bit responsive.</p> 
+  </div>
+	<div class="row main" >
+		<div class="col-md-8">
+			<div class="col-md-4 col-sm-4">
+					<a class="show-layer" data-show-layer="rbn-layer" selectId="1" role="button">
+					<img src="http://img.youtube.com/vi/EdhvndJsj18/0.jpg" style="width:200px;height:120px;">
+					</a>		
+			</div>
+
+			<div class="col-md-4 col-sm-4">
+					<a class="show-layer" data-show-layer="rbn-layer" selectId="2" role="button">
+					<img src="http://img.youtube.com/vi/gOWRkrUgAjg/0.jpg" style="width:200px;height:120px;">
+					</a>		
+			</div>
+
+			<div class="rbn-overlay" id="rbn-layer">
+				<div class="rbn-layer-wrap">
+					
+					<div class="row">
+						<div class="col-md-12 col-sm-12 video_case">
+							<iframe  width="640" height="480" src=""  frameborder="0" >
+							</iframe>
+						</div>
+						<div class="col-md-4 col-sm-4">
+						<a href="http://www.youtube.com/embed/EdhvndJsj18?autoplay=1" class="video-1" title="">
+						<img src="http://img.youtube.com/vi/EdhvndJsj18/0.jpg" style="width:150px;height:100px;">
+						</a>
+						</div>
+
+						<div class="col-md-4 col-sm-4">
+						<a href="https://www.youtube.com/embed/gOWRkrUgAjg?autoplay=1" class="video-2" title="">
+						<img src="http://img.youtube.com/vi/gOWRkrUgAjg/0.jpg" style="width:150px;height:100px;">
+						</a>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$(".video-1, .video-2, .video-3").on("click", function(event) {
+  event.preventDefault();
+  $(".video_case iframe").prop("src", $(event.currentTarget).attr("href"));
+
+});
+
+$(function(){
+	//show layer
+	function showLayer(id){
+		var layer = $('#'+id),
+			layerwrap = layer.find('.rbn-layer-wrap');
+		layer.fadeIn();
+		//center
+		layerwrap.css({
+			'margin-top': -layerwrap.outerHeight()/2
+		});
+	}
+
+	//hider
+	function hideLayer(){
+		$('.rbn-overlay').fadeOut();
+	}
+	//play
+	function play(id) {
+  		event.preventDefault();
+ 		$(".video_case iframe").prop("src", $(".video-"+id).attr("href"));
+	}
+	//celar play
+	function clearPlay() {
+  		event.preventDefault();
+ 		$(".video_case iframe").prop("src", "");
+	}
+
+	$('.rbnLayer-ok,.rbnLayer-cancel,.rbnLayer-close').on('click', function() {
+		hideLayer();
+	});
+
+	//trige
+	$('.show-layer').on('click',  function() {		
+		var layerid = $(this).data('show-layer');
+		showLayer(layerid);
+		play($(event.currentTarget).attr("selectId"));
+	});
+
+	$('.show-layer').on('click',  function() {		
+		var layerid = $(this).data('show-layer');
+		showLayer(layerid);
+		play($(event.currentTarget).attr("selectId"));
+	});
+
+	//click out 
+	$('.rbn-overlay').on('click',  function(event) {
+		if (event.target == this){
+			
+			hideLayer();
+			clearPlay();
+		}
+	});
+
+	//ESC out
+	$(document).keyup(function(event) {
+		if (event.keyCode == 27) {
+
+			hideLayer();
+			clearPlay();
+		}
+	});
+});
+</script>
+</body>
+</html>
